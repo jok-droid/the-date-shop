@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Date Shop</title>
+<style>
+:root{--bg:#fbf7f3;--ink:#28232a;--soft:#746d76;--line:#eee4e8;--pink:#b94d79;--pale:#f9e9ef;--white:#fff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 0%,#fdebf1,transparent 33%),radial-gradient(circle at 90% 90%,#f3eaf7,transparent 40%),var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh;display:grid;place-items:center;padding:22px}.shell{width:min(100%,680px)}header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;color:#5d4250;font-size:13px;font-weight:750;letter-spacing:.1em;text-transform:uppercase}.pill{background:white;border:1px solid var(--line);border-radius:99px;padding:9px 14px}.main{background:rgba(255,255,255,.93);border:1px solid #f0e3e9;border-radius:26px;box-shadow:0 24px 65px #7b45521a;padding:clamp(22px,5vw,40px);min-height:510px}.progress{display:flex;gap:7px;margin-bottom:28px}.progress span{height:5px;flex:1;border-radius:9px;background:#f1e9ed}.progress span.on{background:var(--pink)}.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--pink);font-weight:800}h1{font-size:clamp(29px,5vw,42px);letter-spacing:-.035em;margin:12px 0 12px;line-height:1.14}p{color:var(--soft);line-height:1.6;margin:0 0 24px}.actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:25px}.btn{border-radius:13px;border:1px solid var(--line);background:#fff;padding:13px 19px;font:inherit;font-weight:750;cursor:pointer;color:var(--ink);transition:transform .15s,background .15s}.btn:hover{transform:translateY(-1px)}.primary{background:var(--pink);color:white;border-color:var(--pink)}.ghost{color:#806675}.full{width:100%}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.choice{display:flex;align-items:center;gap:12px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:16px;padding:16px;cursor:pointer;font:inherit}.choice.selected{border-color:var(--pink);background:#fff5f9;box-shadow:inset 0 0 0 1px var(--pink)}.emoji{font-size:27px}.name{font-weight:850;color:#28232a}.hint{color:var(--soft);font-size:13px;display:block;margin-top:3px}.calhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}.calhead button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 13px;cursor:pointer}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.weekday{text-align:center;color:var(--soft);font-size:12px;font-weight:700;padding:7px 0}.day{border:1px solid var(--line);border-radius:10px;background:#fff;min-height:46px;font:inherit;cursor:pointer}.day.selected{background:var(--pink);border-color:var(--pink);color:white;font-weight:800}.day:disabled{opacity:.24;cursor:not-allowed}.summary{border:1px solid var(--line);border-radius:16px;padding:18px;background:#fffcfd}.summaryline{display:flex;justify-content:space-between;gap:15px;border-bottom:1px solid var(--line);padding:12px 0}.summaryline:last-child{border-bottom:0}.summaryline b{text-align:right}.price{font-size:26px;font-weight:850;color:var(--pink)}.notice{background:#fff4f7;border-radius:12px;color:#775264;padding:13px 15px;margin-top:18px;font-size:13px}.detailGroup{border-bottom:1px solid var(--line);padding:16px 0}.detailTitle{font-weight:750;margin-bottom:10px}.detailChoices{display:flex;gap:8px;flex-wrap:wrap}.detailBtn{font-weight:800;color:#28232a;border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 12px;font:inherit;cursor:pointer}.detailBtn.selected{border-color:var(--pink);background:#fff5f9;color:var(--pink);font-weight:750}.footer{text-align:center;font-size:12px;color:#9d8f97;margin-top:18px}.empty{padding:30px 0;text-align:center}.mini{font-size:12px;color:var(--soft)}@media(max-width:430px){.choices{grid-template-columns:1fr}.main{min-height:0}.day{min-height:40px}.choice{padding:12px}}
+
+/* Mobile-first refinements: fit small screens and keep tap targets comfortable. */
+html{width:100%;-webkit-text-size-adjust:100%}
+body{width:100%;overflow-x:hidden}
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.btn,.choice,.detailBtn,.calhead button{min-height:44px}
+.btn:disabled{opacity:.48;cursor:not-allowed}
+.choice,.detailBtn,.summaryline b{overflow-wrap:anywhere}
+@media(max-width:600px){
+ body{display:block;min-height:100svh;padding:14px 12px 28px}
+ .shell{width:100%;max-width:100%}
+ header{font-size:11px;letter-spacing:.065em;margin-bottom:12px;gap:8px}
+ header .pill{padding:8px 11px;white-space:nowrap}
+ .main{padding:22px 17px 25px;border-radius:21px;min-height:0;box-shadow:0 12px 38px #7b45521a}
+ .progress{margin-bottom:22px;gap:5px}
+ h1{font-size:clamp(27px,8vw,36px);line-height:1.18}
+ p{font-size:15px;margin-bottom:19px}
+ .actions{gap:10px;margin-top:21px}
+ .actions .btn{flex:1 1 125px;padding:14px 12px}
+ .choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .choice{padding:12px 9px;gap:7px;min-height:76px;flex-direction:column;align-items:flex-start;justify-content:center}
+ .emoji{font-size:26px}
+ .name{font-size:14px;line-height:1.3}
+ .hint{font-size:12px}
+ .calendar{gap:4px}
+ .weekday{font-size:11px;padding:5px 0}
+ .day{min-width:0;min-height:44px;border-radius:9px;font-size:14px;padding:0}
+ .calhead{gap:8px}
+ .calhead b{font-size:14px;text-align:center}
+ .detailChoices{gap:7px}
+ .detailBtn{padding:10px 12px;font-size:14px}
+ .summary{padding:12px 13px}
+ .summaryline{gap:10px;font-size:13px;align-items:flex-start}
+ .summaryline b{max-width:66%;line-height:1.5}
+ .price{font-size:23px}
+ .empty{padding:16px 0}
+}
+@media(max-width:350px){
+ body{padding-left:8px;padding-right:8px}
+ .main{padding:20px 12px}
+ .calendar{gap:3px}
+ .day{min-height:40px;font-size:13px}
+ .choice{padding:10px 8px}
+ .name{font-size:13px}
+}
+/* Keep the initial two-button layout stable after No starts floating. */
+#inviteActions .no-placeholder{flex:0 0 auto!important;display:block;pointer-events:none;visibility:hidden;}
+#inviteActions .btn.primary{flex-grow:0;}
+/* The runaway button must never inherit mobile flex stretching. */
+#no.is-running{position:fixed!important;flex:none!important;width:var(--no-width)!important;height:var(--no-height)!important;max-width:none!important;min-width:0!important;touch-action:none;transition:none!important;transform:none!important;}
+@media(prefers-reduced-motion:reduce){.btn{transition:none}}
+</style></head>
+<body><div class="shell"><header><span>✦ The Date Shop</span><span class="pill">100% free</span></header><main class="main"><div class="progress" id="progress"></div><div id="app"></div></main></div>
+<script>
+const activities=[['☕','Kava','Ramus pokalbis'],['🚶','Pasivaikščiojimas','Grynas oras'],['🍕','Maistas','Kažkas skanaus'],['🎬','Kinas','Filmas ir spragėsiai']];
+const gifts=[['🌷','Gėlės'],['🍺','Gėrimas']];
+const detailOptions={0:[['☕','Kava'],['🧋','Kitas gėrimas'],['✨','Nesvarbu']],1:[['🌿','Ramiai'],['🥾','Aktyviai'],['✨','Nesvarbu']],2:[['🍣','Sušiai'],['🥩','BBQ'],['🍕','Pica'],['🍔','Burgeriai'],['✨','Kita']],3:[['😂','Komedija'],['🎬','Veiksmo'],['💕','Romantinis'],['✨','Nesvarbu']]};
+// Įrašyk savo el. paštą. Prieš pirmą naudojimą aktyvuok FormSubmit laiške.
+const OWNER_EMAIL = 'jokubaspilk@gmail.com';
+const state={step:0,dates:[],activities:[],gift:null,details:{},status:'',orderId:''};let month=new Date();month=new Date(month.getFullYear(),month.getMonth(),1);const app=document.querySelector('#app');const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function progress(){document.querySelector('#progress').innerHTML=Array.from({length:6},(_,i)=>`<span class="${i<=Math.min(state.step,5)?'on':''}"></span>`).join('')}
+function buttons(back=true,next='Toliau →',disabled=false){return `<div class="actions">${back?'<button class="btn ghost" onclick="goBack()">← Atgal</button>':''}<button class="btn primary" ${disabled?'disabled':''} onclick="advance()">${next}</button></div>`}
+function formatDate(s){return new Intl.DateTimeFormat('lt-LT',{weekday:'long',year:'numeric',month:'long',day:'numeric'}).format(new Date(s+'T12:00:00'))}
+function render(){progress(); if(state.step===0){app.innerHTML=`<div class="eyebrow">Labas!</div><h1>Gal norėtum kur nors kartu išlėkti? 👀</h1><div class="actions" id="inviteActions"><button class="btn primary" onclick="inviteYes(event)">Taip</button><button id="no" class="btn ghost" onclick="noClick(event,this)" onpointerenter="dodge(this,event)" onpointerdown="touchDodge(event,this)">Ne</button></div>`;return}
+if(state.step===1){app.innerHTML=`<div class="eyebrow">01 / Data</div><h1>Kada tau būtų patogu?</h1><p>Pasirink vieną penktadienį, šeštadienį arba sekmadienį. Tikslų laiką susitarsime vėliau.</p><div class="calhead"><button onclick="changeMonth(-1)" aria-label="Ankstesnis mėnuo">‹</button><b>${new Intl.DateTimeFormat('lt-LT',{month:'long',year:'numeric'}).format(month)}</b><button onclick="changeMonth(1)" aria-label="Kitas mėnuo">›</button></div><div class="calendar" id="calendar"></div><p class="mini" style="margin-top:14px" id="dateCount"></p><div id="stepButtons"></div>`;renderCalendar();return}
+if(state.step===2){app.innerHTML=`<div class="eyebrow">02 / Veiklos</div><h1>Ką norėtum nuveikti?</h1><p>Gali pasirinkti daugiau nei vieną. Galutinį planą suderinsime kartu.</p><div class="choices">${activities.map((a,i)=>`<button class="choice ${state.activities.includes(i)?'selected':''}" onclick="toggleActivity(${i})"><span class="emoji">${a[0]}</span><span class="name">${a[1]}</span></button>`).join('')}</div>${buttons(true,'Toliau →',!state.activities.length)}`;return}
+if(state.step===3){app.innerHTML=`<div class="eyebrow">03 / Patikslink pasirinkimus</div><h1>O kaip norėtum?</h1><p>Po vieną pasirinkimą prie kiekvienos veiklos.</p>${state.activities.map(i=>`<section class="detailGroup"><div class="detailTitle">${activities[i][0]} ${activities[i][1]}</div><div class="detailChoices">${detailOptions[i].map((o,j)=>`<button class="detailBtn ${state.details[i]===j?'selected':''}" onclick="pickDetail(${i},${j})">${o[0]} ${o[1]}</button>`).join('')}</div></section>`).join('')}${buttons(true,'Toliau →',state.activities.some(i=>state.details[i]===undefined))}`;return}
+if(state.step===4){app.innerHTML=`<div class="eyebrow">04 / Pirmojo užsakymo privilegija</div><h1>Jums priklauso dovana! 🎁</h1><p>Pirmojo užsakymo proga gali išsirinkti vieną dovaną. Taip, tikrai už 0,00 €.</p><div class="choices">${gifts.map((g,i)=>`<button class="choice ${state.gift===i?'selected':''}" onclick="pickGift(${i})"><span class="emoji">${g[0]}</span><span><span class="name">${g[1]}</span><span class="hint"><s>9,99 €</s> &nbsp; <b>0,00 €</b></span></span></button>`).join('')}</div>${buttons(true,'Peržiūrėti užsakymą →')}`;return}
+if(state.step===5){app.innerHTML=`<div class="eyebrow">05 / Krepšelis</div><h1>Beveik užsakyta 🛒</h1><p>Patikrink pasirinkimus. Prieš patvirtindama gali viską pakeisti.</p><div class="summary"><div class="summaryline"><span>Pasirinkta data</span><b>${state.dates.map(formatDate).map(esc).join('<br>')}</b></div><div class="summaryline"><span>Veiklos</span><b>${activityDetailsText()}</b></div><div class="summaryline"><span>Dovana</span><b>${giftText()}</b></div><div class="summaryline"><span>Iš viso</span><span class="price">0,00 €</span></div></div><div class="notice">Apmokėjimo būdas: —</div><div class="actions"><button class="btn ghost" onclick="goBack()">← Pakeisti</button><button class="btn primary" onclick="confirmOrder()">Patvirtinti užsakymą ✓</button></div><button class="btn ghost full" style="margin-top:14px" onclick="cancelOrder()">Atšaukti užsakymą</button>`;return}
+if(state.step===6){app.innerHTML=`<div class="empty"><div style="font-size:58px">🎉</div><div class="eyebrow">Užsakymas pateiktas</div><h1>Rezervacijos užklausa priimta!</h1><p>Užsakymo Nr. <b>${state.orderId}</b>. Dabar belieka su pardavėju susitarti dėl tikslaus laiko.</p><div class="summary" style="text-align:left"><div class="summaryline"><span>Data</span><b>${state.dates.map(formatDate).join('<br>')}</b></div><div class="summaryline"><span>Veiklos</span><b>${activityDetailsText()}</b></div><div class="summaryline"><span>Dovana</span><b>${giftText()}</b></div></div><button class="btn ghost" onclick="cancelOrder()">Atšaukti užsakymą</button></div>`;return}
+if(state.step===7){app.innerHTML=`<div class="empty"><div style="font-size:58px">💌</div><h1>Užsakymas atšauktas</h1><p>Jokių atšaukimo mokesčių ir jokio spaudimo. Galbūt kitą kartą!</p><button class="btn primary" onclick="restart()">Grįžti į pradžią</button></div>`;return}}
+function localISO(d){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
+function renderCalendar(){const cal=document.querySelector('#calendar');const today=localISO(new Date());let html=['Pr','An','Tr','Kt','Pn','Št','Sk'].map(x=>`<div class="weekday">${x}</div>`).join('');const offset=(month.getDay()+6)%7;html+='<div></div>'.repeat(offset);const last=new Date(month.getFullYear(),month.getMonth()+1,0).getDate();for(let i=1;i<=last;i++){const date=new Date(month.getFullYear(),month.getMonth(),i);const iso=localISO(date);const allowed=[0,5,6].includes(date.getDay());html+=`<button class="day ${state.dates.includes(iso)?'selected':''}" ${(iso<today||!allowed)?'disabled':''} onclick="toggleDate('${iso}')" aria-label="${iso}">${i}</button>`}cal.innerHTML=html;document.querySelector('#dateCount').textContent=state.dates.length?`Pasirinkta: ${formatDate(state.dates[0])}`:'Galimos dienos: penktadienis, šeštadienis, sekmadienis';document.querySelector('#stepButtons').innerHTML=buttons(true,'Toliau →',!state.dates.length)}
+function changeMonth(n){const next=new Date(month.getFullYear(),month.getMonth()+n,1),now=new Date();const min=new Date(now.getFullYear(),now.getMonth(),1),max=new Date(now.getFullYear()+1,now.getMonth(),1);if(next>=min&&next<=max){month=next;renderCalendar()}}
+function toggleDate(s){const d=new Date(s+'T12:00:00');if(![0,5,6].includes(d.getDay())||s<localISO(new Date()))return;state.dates=state.dates.includes(s)?[]:[s];renderCalendar()}
+function toggleActivity(i){state.activities=state.activities.includes(i)?state.activities.filter(x=>x!==i):[...state.activities,i];delete state.details[i];render()}
+function pickGift(i){state.gift=state.gift===i?null:i;render()}
+function pickDetail(i,j){state.details[i]=j;render()}
+function activityDetailsText(){return state.activities.map(i=>`${activities[i][1]} (${detailOptions[i][state.details[i]]?.[1]||'Nepasirinkta'})`).join(', ')}
+function giftText(){return state.gift===null?'Nepasirinkta':gifts[state.gift][0]+' '+gifts[state.gift][1]}
+function advance(){if(state.step===1&&!state.dates.length||state.step===2&&!state.activities.length||state.step===3&&state.activities.some(i=>state.details[i]===undefined))return;if(state.step<5)state.step++;render()}
+function goBack(){state.step=Math.max(0,state.step-1);render()}
+let noAttemptReported=false;
+let lastNoTouch=0;
+function reportNoAttempt(){
+  // One message per visit, not one per dodge. Anonymous: no visitor identity collected.
+  if(noAttemptReported)return;
+  noAttemptReported=true;
+  const payload={_subject:'The Date Shop: bandyta spausti Ne',_captcha:'false',ivykis:'Bandymas pasirinkti Ne',pastaba:'Anoniminis bandymas; tai nepatvirtina, kas apsilanke.'};
+  fetch('https://formsubmit.co/ajax/'+encodeURIComponent(OWNER_EMAIL),{
+    method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify(payload),keepalive:true
+  }).catch(()=>{});
+}
+function dodge(btn,event){
+  // Mouse hover moves the button; touch moves it when tapped.
+  if(event && event.pointerType && event.pointerType!=='mouse')return;
+  if(!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+  moveNoButton(btn);
+}
+function touchDodge(event,btn){
+  if(event.pointerType!=='touch' && event.pointerType!=='pen')return;
+  event.preventDefault();
+  event.stopPropagation();
+  lastNoTouch=Date.now();
+  reportNoAttempt();
+  moveNoButton(btn);
+}
+function inviteYes(event){
+  // A touch intended for No must never trigger Yes when No moves away.
+  if(Date.now()-lastNoTouch<1100){event.preventDefault();return;}
+  advance();
+}
+function noClick(event,btn){
+  // Keyboard users can still decline. Ignore the synthetic click after a touch.
+  if(event.detail===0){cancelOrder();return;}
+  event.preventDefault();
+  if(Date.now()-lastNoTouch<700)return;
+  reportNoAttempt();
+  moveNoButton(btn);
+}
+function moveNoButton(btn){
+  const rect=btn.getBoundingClientRect();
+  const w=rect.width,h=rect.height,pad=12;
+  // Lock dimensions before fixed positioning removes the button from flex layout.
+  btn.style.setProperty('--no-width',w+'px');
+  btn.style.setProperty('--no-height',h+'px');
+  // Preserve No's original flex slot so Yes cannot suddenly fill the row.
+  if(!btn.classList.contains('is-running')){
+    const spacer=document.createElement('span');
+    spacer.className='no-placeholder';
+    spacer.style.width=w+'px';
+    spacer.style.height=h+'px';
+    spacer.setAttribute('aria-hidden','true');
+    btn.parentNode.insertBefore(spacer,btn);
+  }
+  btn.classList.add('is-running');
+  const vw=document.documentElement.clientWidth,vh=window.innerHeight;
+  const maxX=Math.max(pad,vw-w-pad),maxY=Math.max(pad,vh-h-pad);
+  let x=pad,y=pad;
+  for(let tries=0;tries<40;tries++){
+    x=pad+Math.random()*Math.max(0,maxX-pad);
+    y=pad+Math.random()*Math.max(0,maxY-pad);
+    if(Math.hypot(x-rect.left,y-rect.top)>Math.min(230,vw*.46))break;
+  }
+  btn.style.left=x+'px';btn.style.top=y+'px';
+  btn.style.zIndex='1000';btn.style.transform='none';
+}
+async function cancelOrder(){
+  if(state.status==='confirmed' && OWNER_EMAIL){
+    const data={_subject:'ATŠAUKTAS užsakymas '+state.orderId,_captcha:'false',uzsakymo_numeris:state.orderId,busena:'Atšaukta'};
+    try{const r=await fetch('https://formsubmit.co/ajax/'+encodeURIComponent(OWNER_EMAIL),{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)});const j=await r.json();if(!r.ok||j.success===false||j.success==='false')throw Error();}
+    catch{alert('Atšaukimo pranešimo išsiųsti nepavyko. Susisiek su organizatoriumi tiesiogiai.');return;}
+  }
+  state.step=7;state.status='cancelled';render();
+}
+async function confirmOrder(){
+  if(!OWNER_EMAIL || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(OWNER_EMAIL)){
+    alert('Puslapio savininkas dar nenustatė užsakymų gavimo. Kol kas užsakymo pateikti negalima.');return;
+  }
+  const btn=document.querySelector('.actions .primary');if(btn){btn.disabled=true;btn.textContent='Siunčiama…'}
+  if(!state.orderId)state.orderId='DATE-'+Math.floor(100000+Math.random()*900000);
+  const data={_subject:'Nauja susitikimo užklausa '+state.orderId,_captcha:'false',uzsakymo_numeris:state.orderId,dienos:state.dates.map(formatDate).join('; '),veiklos:activityDetailsText(),dovana:giftText(),busena:'Patvirtinta'};
+  try{
+    const response=await fetch('https://formsubmit.co/ajax/'+encodeURIComponent(OWNER_EMAIL),{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)});
+    const result=await response.json();
+    if(!response.ok||result.success===false||result.success==='false')throw new Error('Nepavyko išsiųsti');
+    state.status='confirmed';state.step=6;render();
+  }catch(e){alert('Užsakymo išsiųsti nepavyko. Patikrink interneto ryšį ir pabandyk dar kartą.');if(btn){btn.disabled=false;btn.textContent='Patvirtinti užsakymą ✓'}}
+}
+function orderText(){return `Susitikimo užklausa ${state.orderId}\nDatos: ${state.dates.map(formatDate).join(', ')}\nVeiklos: ${activityDetailsText()}\nDovana: ${giftText()}\nKaina: 0,00 €`}
+async function copyOrder(){try{await navigator.clipboard.writeText(orderText());alert('Informacija nukopijuota!')}catch{prompt('Nukopijuok informaciją:',orderText())}}
+async function shareOrder(){if(navigator.share){try{await navigator.share({title:'Susitikimo užklausa',text:orderText()})}catch{}}else copyOrder()}
+function restart(){state.step=0;state.dates=[];state.activities=[];state.details={};state.gift=null;state.status='';state.orderId='';render()}
+render();
+</script></body></html>

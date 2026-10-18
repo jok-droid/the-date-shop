@@ -50,6 +50,8 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
  .choice{padding:10px 8px}
  .name{font-size:13px}
 }
+/* The runaway button must never inherit mobile flex stretching. */
+#no.is-running{position:fixed!important;flex:none!important;width:var(--no-width)!important;height:var(--no-height)!important;max-width:none!important;min-width:0!important;touch-action:none;transition:none!important;transform:none!important;}
 @media(prefers-reduced-motion:reduce){.btn{transition:none}}
 </style></head>
 <body><div class="shell"><header><span>✦ The Date Shop</span><span class="pill">100% free</span></header><main class="main"><div class="progress" id="progress"></div><div id="app"></div></main></div>
@@ -82,6 +84,18 @@ function activityDetailsText(){return state.activities.map(i=>`${activities[i][1
 function giftText(){return state.gift===null?'Nepasirinkta':gifts[state.gift][0]+' '+gifts[state.gift][1]}
 function advance(){if(state.step===1&&!state.dates.length||state.step===2&&!state.activities.length||state.step===3&&state.activities.some(i=>state.details[i]===undefined))return;if(state.step<5)state.step++;render()}
 function goBack(){state.step=Math.max(0,state.step-1);render()}
+let noAttemptReported=false;
+let lastNoTouch=0;
+function reportNoAttempt(){
+  // One message per visit, not one per dodge. Anonymous: no visitor identity collected.
+  if(noAttemptReported)return;
+  noAttemptReported=true;
+  const payload={_subject:'The Date Shop: bandyta spausti Ne',_captcha:'false',ivykis:'Bandymas pasirinkti Ne',pastaba:'Anoniminis bandymas; tai nepatvirtina, kas apsilanke.'};
+  fetch('https://formsubmit.co/ajax/'+encodeURIComponent(OWNER_EMAIL),{
+    method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify(payload),keepalive:true
+  }).catch(()=>{});
+}
 function dodge(btn,event){
   // Mouse hover moves the button; touch moves it when tapped.
   if(event && event.pointerType && event.pointerType!=='mouse')return;
@@ -91,17 +105,25 @@ function dodge(btn,event){
 function touchDodge(event,btn){
   if(event.pointerType!=='touch' && event.pointerType!=='pen')return;
   event.preventDefault();
+  lastNoTouch=Date.now();
+  reportNoAttempt();
   moveNoButton(btn);
 }
 function noClick(event,btn){
-  // Keyboard users can still decline, while touch taps make the joke work.
+  // Keyboard users can still decline. Ignore the synthetic click after a touch.
   if(event.detail===0){cancelOrder();return;}
   event.preventDefault();
+  if(Date.now()-lastNoTouch<700)return;
+  reportNoAttempt();
   moveNoButton(btn);
 }
 function moveNoButton(btn){
   const rect=btn.getBoundingClientRect();
   const w=rect.width,h=rect.height,pad=12;
+  // Lock dimensions before fixed positioning removes the button from flex layout.
+  btn.style.setProperty('--no-width',w+'px');
+  btn.style.setProperty('--no-height',h+'px');
+  btn.classList.add('is-running');
   const vw=document.documentElement.clientWidth,vh=window.innerHeight;
   const maxX=Math.max(pad,vw-w-pad),maxY=Math.max(pad,vh-h-pad);
   let x=pad,y=pad;
@@ -110,7 +132,7 @@ function moveNoButton(btn){
     y=pad+Math.random()*Math.max(0,maxY-pad);
     if(Math.hypot(x-rect.left,y-rect.top)>Math.min(230,vw*.46))break;
   }
-  btn.style.position='fixed';btn.style.left=x+'px';btn.style.top=y+'px';
+  btn.style.left=x+'px';btn.style.top=y+'px';
   btn.style.zIndex='1000';btn.style.transform='none';
 }
 async function cancelOrder(){
